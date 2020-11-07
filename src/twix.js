@@ -27,7 +27,16 @@ const dictionary = {
 }
 
 function makeTweaks(props = {}) {
-  const propKeys = omit(props, ['name', 'args', 'attach', 'envMap', 'children', 'scale'])
+  const propKeys = omit(props, [
+    'name', 
+    'args', 
+    'attach', 
+    'envMap', 
+    'children', 
+    'scale',
+    'position',
+    'rotation'
+  ])
 
   Object.keys(propKeys).forEach((key) => {
     if (key in dictionary) {
@@ -46,7 +55,6 @@ export const primitives = ['primitive'].concat(
 
 
 export function withTweaks(Component) {
-
   const component = forwardRef(function MyComponent(props, ref) {
     const name = props.name || (typeof Component === "string" ? Component : "MyComponent")
     const twix = useTweaks(name, makeTweaks(props))
@@ -56,7 +64,6 @@ export function withTweaks(Component) {
   component.displayName = `withTweaks(...)`
   
   return component
-
 }
 
 const t = new Proxy({}, {

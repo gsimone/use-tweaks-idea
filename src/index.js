@@ -1,14 +1,14 @@
 import ReactDOM from 'react-dom'
 import React, { Suspense } from 'react'
 import { Canvas } from 'react-three-fiber'
-import { useCubeTexture, OrbitControls, ContactShadows, Box } from '@react-three/drei'
+import { useCubeTexture, OrbitControls, ContactShadows as _ContactShadows, Box as _Box } from '@react-three/drei'
 
 import { t, withTweaks } from './twix'
 
-import Badge from './pmndrs'
 import './styles.css'
 
-const TweakableBox = withTweaks(Box)
+const Box = withTweaks(_Box)
+const ContactShadows = withTweaks(_ContactShadows)
 
 function Scene() {
   const envMap = useCubeTexture(['px.png', 'nx.png', 'py.png', 'ny.png', 'pz.png', 'nz.png'], { path: '/cube/' })
@@ -16,7 +16,7 @@ function Scene() {
   return (
     <>
 
-      <t.mesh  position-y={0}>
+      <t.mesh position-y={0}>
         <octahedronBufferGeometry args={[1, 5]} />
         <t.meshPhysicalMaterial metalness={1} roughness={0} envMap={envMap} color="#f51d63" />
       </t.mesh>
@@ -42,13 +42,11 @@ function App() {
           
           <OrbitControls maxPolarAngle={Math.PI / 2} />
 
-          <TweakableBox name="rightBox" args={[2, 2]} position-x={3} rotation-y={2} />
-          <TweakableBox name="leftBox" args={[2, 2]} position-x={-3} />
-        
+          <Box name="rightBox" args={[2, 2]} position-x={3} rotation-y={2} />
+          <Box name="leftBox" args={[2, 2]} position-x={-3} rotation-y={-2} />
           <Scene />
         </Suspense>
       </Canvas>
-      <Badge />
     </>
   )
 }
